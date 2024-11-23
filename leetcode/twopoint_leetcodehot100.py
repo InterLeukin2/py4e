@@ -64,4 +64,30 @@ class Solution:
                     left += 1
         return abc
 
+#42 接雨水
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        stack = list()  # 栈用于存储高度的索引
+        result = 0  # 最终的存水量
 
+        for i, h in enumerate(height):
+            # 当当前高度大于栈顶高度时
+            while stack and height[i] > height[stack[-1]]:
+                # 获取底部索引并弹出栈顶
+                bottom = stack.pop()
+
+                # 如果弹出后栈为空，说明没有左边界，无法形成水池
+                if not stack:
+                    break
+
+                # 计算当前的高度差和宽度差
+                h = min(height[stack[-1]], height[i]) - height[bottom]
+                w = i - stack[-1] - 1
+
+                # 累加水量
+                result += h * w
+
+            # 把当前索引压入栈
+            stack.append(i)
+
+        return result
